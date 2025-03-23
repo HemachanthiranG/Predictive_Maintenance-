@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Maintenance</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-size: cover;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            color: #ff6347;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+            color: #ff6347;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="number"] {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus, input[type="number"]:focus {
+            border-color: #ff6347;
+            outline: none;
+        }
+        input[type="submit"] {
+            background-color: #ff6347;
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #e5533d;
+        }
+        .error {
+            color: #ff6347;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Predictive Maintenance</h1>
+        <form id="maintenanceForm" action="/predict" method="post">
+            <label for="Type">Type (H, L, M):</label>
+            <input type="text" id="Type" name="Type" required>
+            <div id="typeError" class="error"></div>
+
+            <label for="air_temp">Air temperature [K]:</label>
+            <input type="number" id="air_temp" name="air_temp" step="0.01" required>
+            
+            <label for="process_temp">Process temperature [K]:</label>
+            <input type="number" id="process_temp" name="process_temp" step="0.01" required>
+            
+            <label for="rotational_speed">Rotational speed [rpm]:</label>
+            <input type="number" id="rotational_speed" name="rotational_speed" required>
+            
+            <label for="torque">Torque [Nm]:</label>
+            <input type="number" id="torque" name="torque" step="0.01" required>
+            
+            <label for="tool_wear">Tool wear [min]:</label>
+            <input type="number" id="tool_wear" name="tool_wear" required>
+            
+            <input type="submit" value="Predict">
+        </form>
+    </div>
+    
+    <script>
+        document.getElementById('maintenanceForm').addEventListener('submit', function(event) {
+            const typeField = document.getElementById('Type');
+            const typeError = document.getElementById('typeError');
+            const validTypes = ['H', 'L', 'M'];
+
+            if (!validTypes.includes(typeField.value.toUpperCase())) {
+                event.preventDefault();
+                typeError.textContent = "Invalid Type. Please enter H, L, or M.";
+                typeField.style.borderColor = 'red';
+            } else {
+                typeError.textContent = "";
+                typeField.style.borderColor = '#ddd';
+            }
+        });
+    </script>
+</body>
+</html>
